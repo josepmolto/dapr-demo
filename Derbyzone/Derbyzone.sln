@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Derbyzone", "src\Derbyzone.csproj", "{B19C4AE6-EB16-4AD4-8288-A25F11B6557B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Derbyzone.Test", "test\Derbyzone.Test.csproj", "{13617E96-7478-4C74-B2C5-0CA3F3F37152}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B19C4AE6-EB16-4AD4-8288-A25F11B6557B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B19C4AE6-EB16-4AD4-8288-A25F11B6557B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B19C4AE6-EB16-4AD4-8288-A25F11B6557B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B19C4AE6-EB16-4AD4-8288-A25F11B6557B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13617E96-7478-4C74-B2C5-0CA3F3F37152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13617E96-7478-4C74-B2C5-0CA3F3F37152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13617E96-7478-4C74-B2C5-0CA3F3F37152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13617E96-7478-4C74-B2C5-0CA3F3F37152}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

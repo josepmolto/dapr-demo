@@ -1,0 +1,17 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: offers
+  version: v1
+spec:
+  type: state.mongodb
+  initTimeout: 30s
+  metadata:
+  - name: host
+    value: storage:27017
+  - name: username
+    value: josep
+  - name: password
+    value: secret
+  - name: databaseName
+    value: admin

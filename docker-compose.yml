@@ -1,0 +1,114 @@
+version: '3'
+services:
+  derbyzone:
+    build: ./Derbyzone
+    ports:
+      - "5001:80" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+    depends_on:
+      - storage
+    networks:
+      - dapr-network
+  derbyzone-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "-app-id", "derbyzone",
+      "-dapr-http-port", "50001",
+      "-dapr-grpc-port", "50000",
+      "-components-path", "/components"
+     ]
+    volumes:
+        - "./components/:/components" # Mount our components folder for the runtime to use
+    depends_on:
+      - derbyzone
+      - storage
+    network_mode: "service:derbyzone"  # Attach the nodeapp-dapr service to the nodeapp network namespace
+
+  storage:
+    image: "mongo:5.0.9"
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=josep
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    networks:
+      - dapr-network
+
+  producer:
+    build: 
+      dockerfile: ./Producer/Dockerfile
+      context: ./
+    ports:
+      - "80" 
+    depends_on:
+      - redis
+    networks:
+      - dapr-network
+    deploy:
+      mode: replicated
+      replicas: 2
+      endpoint_mode: vip
+  producer-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "-app-id", "producer",
+      "-dapr-http-port", "60001",
+      "-dapr-grpc-port", "60000",
+      "-components-path", "/components"
+     ]
+    volumes:
+        - "./components/:/components" # Mount our components folder for the runtime to use
+    depends_on:
+      - producer
+      - redis
+    network_mode: "service:producer"  # Attach the nodeapp-dapr service to the nodeapp network namespace
+  queue:
+    image: "rabbitmq:3.10.6-management-alpine"
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password 
+    ports:
+      - "5672:5672"
+      - "8080:15672"
+    networks:
+      - dapr-network
+
+  consumer:
+    build: 
+      dockerfile: ./Consumer/Dockerfile
+      context: ./
+    ports:
+      - "7001:80" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+    depends_on:
+      - queue
+    networks:
+      - dapr-network
+
+  consumer-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "-app-id", "consumer",
+      "-app-port", "80",
+      "-dapr-http-port", "60001",
+      "-dapr-grpc-port", "60000",
+      "-components-path", "/components"
+     ]
+    volumes:
+        - "./components/:/components" # Mount our components folder for the runtime to use
+    depends_on:
+      - consumer
+      - queue
+    network_mode: "service:consumer"  # Attach the nodeapp-dapr service to the nodeapp network namespace
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - 6379:6379
+    command: ["redis-server"]
+    networks:
+      - dapr-network
+
+networks: 
+  dapr-network: null
