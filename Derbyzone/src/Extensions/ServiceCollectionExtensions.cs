@@ -22,8 +22,8 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddDaprClientService(this IServiceCollection services)
     {
         services.AddDaprClient(builder => builder
-            .UseHttpEndpoint($"http://localhost:50001")
-            .UseGrpcEndpoint("http://localhost:50000"));
+            .UseHttpEndpoint($"http://derbyzone:60001")
+            .UseGrpcEndpoint("http://derbyzone:60000"));
 
         return services;
     }
