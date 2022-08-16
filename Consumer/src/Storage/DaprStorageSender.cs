@@ -1,6 +1,6 @@
 using Common.Dto.Derbyzone;
+using Common.Key;
 using Consumer.Config;
-using Consumer.Key;
 using Dapr.Client;
 using Microsoft.Extensions.Options;
 

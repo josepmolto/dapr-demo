@@ -38,7 +38,7 @@ public class OffersOrchestrator : IOffersOrchestrator
 
         for (ulong i = 0; i < _orchestratorConfig.OffersToGenerate; i++)
         {
-            var offer = _offerGenerator.GenerateOfffer();
+            var offer = _offerGenerator.GenerateOffer();
 
             broadcastBlock.Post(offer);
         }

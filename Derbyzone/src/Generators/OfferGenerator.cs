@@ -10,19 +10,21 @@ public class OfferGenerator : IOfferGenerator
     private readonly RandomData _randomData;
     private readonly Random _random;
     private readonly IEnumerable<DateTime> _dates;
+    private readonly IKeyGenerator _keyGenerator;
 
-    public OfferGenerator(IOptions<RandomData> randomData)
+    public OfferGenerator(IOptions<RandomData> randomData, IKeyGenerator keyGenerator)
     {
         _randomData = randomData.Value;
         _random = new Random();
         _dates = GetNext30Days();
+        _keyGenerator = keyGenerator;
     }
 
-    public Offer GenerateOfffer()
+    public Offer GenerateOffer()
     {
         var date = _random.Next(_dates);
 
-        return new()
+        var offer = new Offer()
         {
             Date = date,
             HotelCode = _random.Next(_randomData.Hotels),
@@ -30,6 +32,10 @@ public class OfferGenerator : IOfferGenerator
             Cost = _random.Next(50, 2501),
             CancellationPolicies = GetRandomCancellationPolicy(date)
         };
+
+        offer.Key = _keyGenerator.GenerateKey(offer);
+
+        return offer;
     }
 
     private static IEnumerable<DateTime> GetNext30Days()

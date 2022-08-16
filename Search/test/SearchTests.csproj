@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Derbyzone.csproj" />
+    <ProjectReference Include="..\src\Search.csproj" />
   </ItemGroup>
 
 </Project>

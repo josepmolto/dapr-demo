@@ -1,7 +1,6 @@
+using Common.Extensions;
 using Consumer.Config;
-using Consumer.Key;
 using Consumer.Storage;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Consumer.Extensions;
 
@@ -12,7 +11,7 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration) =>
             services
                 .AddSingleton<IOfferStorageSender, DaprStorageSender>()
-                .AddSingleton<IKeyGenerator, KeyGenerator>()
+                .AddKeyGeneratorService()
                 .AddDaprClientService()
                 .Configure<DaprOptions>(configuration.GetSection("DaprOptions"));
 
