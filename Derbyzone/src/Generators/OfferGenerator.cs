@@ -40,8 +40,10 @@ public class OfferGenerator : IOfferGenerator
 
     private static IEnumerable<DateTime> GetNext30Days()
     {
-        var days = 1;
-        return Enumerable.Repeat(DateTime.Today.AddDays(days++), 30);
+        for (var days = 1; days <= 30; days++)
+        {
+            yield return DateTime.Today.AddDays(days);
+        }
     }
 
     private IEnumerable<CancellationPolicy> GetRandomCancellationPolicy(DateTime date)

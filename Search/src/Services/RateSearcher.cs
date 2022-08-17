@@ -36,7 +36,7 @@ public class RateSearcher : IRateSearcher
 
             if (isValid)
             {
-                var offerRate = CreateOfferRate(offers);
+                var offerRate = CreateRate(offers);
 
                 offersRate.Add(offerRate);
             }
@@ -45,7 +45,7 @@ public class RateSearcher : IRateSearcher
         return offersRate;
     }
 
-    private Rate CreateOfferRate(IEnumerable<Offer> offers)
+    private Rate CreateRate(IEnumerable<Offer> offers)
     {
         var firstOffer = offers.First();
 
@@ -58,7 +58,7 @@ public class RateSearcher : IRateSearcher
             }),
             Cost = offers.Sum(o => o.Cost),
             RoomType = firstOffer.RoomType,
-            BookingKey = string.Join(SEPARATOR, offers)
+            BookingKey = string.Join(SEPARATOR, offers.Select(o => o.Key))
         };
     }
 
@@ -68,7 +68,7 @@ public class RateSearcher : IRateSearcher
         IEnumerable<DateTime> stayDates,
         CancellationToken cancellationToken)
     {
-        var offers = new Offer[stayDates.Count()];
+        var offers = new List<Offer>(stayDates.Count());
 
         foreach (var date in stayDates)
         {
@@ -92,7 +92,7 @@ public class RateSearcher : IRateSearcher
             }
 
 
-            offers.Append(offer);
+            offers.Add(offer);
         }
 
 
@@ -101,7 +101,7 @@ public class RateSearcher : IRateSearcher
 
     private static IEnumerable<DateTime> CalculateStayRange(Request request)
     {
-        for (var date = request.CheckIn; date <= request.CheckOut; date.AddDays(1))
+        for (var date = request.CheckIn; date < request.CheckOut; date = date.AddDays(1))
         {
             yield return date;
         }
