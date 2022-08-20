@@ -1,3 +1,4 @@
+using Derbyzone.Book;
 using Derbyzone.Config;
 using Derbyzone.Generators;
 using Derbyzone.Sender;
@@ -12,9 +13,11 @@ public static class ServiceCollectionExtensions
             .AddSingleton<IOfferGenerator, OfferGenerator>()
             .AddSingleton<IKeyGenerator, KeyGenerator>()
             .AddSingleton<IStorageSender, DaprStorageSender>()
+            .AddSingleton<IBookService, BookService>()
             .Configure<OrchestratorConfig>(configuration.GetSection("OrchestratorConfig"))
             .Configure<RandomData>(configuration.GetSection("RandomData"))
             .Configure<SenderOptions>(configuration.GetSection("SenderOptions"))
+            .Configure<DaprOptions>(configuration.GetSection("DaprOptions"))
             .AddDaprClientService()
             .AddHttpClientSender();
     }

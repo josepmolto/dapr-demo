@@ -8,20 +8,20 @@ namespace Derbyzone.Sender;
 public class DaprStorageSender : IStorageSender
 {
     private readonly DaprClient _daprClient;
-    private readonly SenderOptions _senderOptions;
+    private readonly DaprOptions _daprOptions;
 
     public DaprStorageSender(
         DaprClient daprClient,
-        IOptions<SenderOptions> senderOptions)
+        IOptions<DaprOptions> daprOptions)
     {
         _daprClient = daprClient;
-        _senderOptions = senderOptions.Value;
+        _daprOptions = daprOptions.Value;
     }
 
     public Task SendAsync(Offer offer)
     {
         Console.WriteLine($"Sending key {offer.Key} to dapr");
 
-        return _daprClient.SaveStateAsync(_senderOptions.DaprSenderStoreName, offer.Key, offer);
+        return _daprClient.SaveStateAsync(_daprOptions.StoreName, offer.Key, offer);
     }
 }

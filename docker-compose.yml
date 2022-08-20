@@ -127,6 +127,31 @@ services:
       - search
     network_mode: "service:search"  # Attach the nodeapp-dapr service to the nodeapp network namespace
 
+  book:
+    build: 
+      dockerfile: ./Book/Dockerfile
+      context: ./
+    ports:
+      - "9001:80" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+    networks:
+      - dapr-network
+
+  book-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "-app-id", "book",
+      "-app-port", "80",
+      "-dapr-http-port", "60001",
+      "-dapr-grpc-port", "60000",
+      "-components-path", "/components"
+     ]
+    volumes:
+        - "./components/:/components" # Mount our components folder for the runtime to use
+    depends_on:
+      - search
+    network_mode: "service:book"  # Attach the nodeapp-dapr service to the nodeapp network namespace
+
   redis:
     image: redis:6-alpine
     ports:
