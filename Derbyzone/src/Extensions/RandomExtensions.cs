@@ -1,9 +1,9 @@
 namespace Derbyzone.Extensions;
-public static class RandomExtensions
+public static class RandomHelper
 {
-    public static T Next<T>(this Random random, IEnumerable<T> values)
+    public static T Next<T>(IEnumerable<T> values)
     {
-        var index = random.Next(0, values.Count());
+        var index = Random.Shared.Next(0, values.Count());
 
         return values.ElementAt(index);
     }

@@ -15,21 +15,20 @@ public class OfferGenerator : IOfferGenerator
     public OfferGenerator(IOptions<RandomData> randomData, IKeyGenerator keyGenerator)
     {
         _randomData = randomData.Value;
-        _random = new Random();
         _dates = GetNext30Days();
         _keyGenerator = keyGenerator;
     }
 
     public Offer GenerateOffer()
     {
-        var date = _random.Next(_dates);
+        var date = RandomHelper.Next(_dates);
 
         var offer = new Offer()
         {
             Date = date,
-            HotelCode = _random.Next(_randomData.Hotels),
-            RoomType = _random.Next(_randomData.RoomTypes),
-            Cost = _random.Next(50, 2501),
+            HotelCode = RandomHelper.Next(_randomData.Hotels),
+            RoomType = RandomHelper.Next(_randomData.RoomTypes),
+            Cost = Random.Shared.Next(50, 2501),
             CancellationPolicies = GetRandomCancellationPolicy(date)
         };
 
@@ -59,7 +58,7 @@ public class OfferGenerator : IOfferGenerator
         var firstCancellationPolicy = new CancellationPolicy()
         {
             DateFrom = DateTime.Today,
-            PenaltyPercentage = _random.Next(randomPenalties)
+            PenaltyPercentage = RandomHelper.Next(randomPenalties)
         };
 
         cancellationPolicies.Add(firstCancellationPolicy);
@@ -69,7 +68,7 @@ public class OfferGenerator : IOfferGenerator
             var secondPolicyPenalty = (byte)100;
             do
             {
-                secondPolicyPenalty = _random.Next(randomPenalties);
+                secondPolicyPenalty = RandomHelper.Next(randomPenalties);
             }
             while (secondPolicyPenalty <= firstCancellationPolicy.PenaltyPercentage);
 
