@@ -63,6 +63,7 @@ services:
       - producer
       - redis
     network_mode: "service:producer"  # Attach the nodeapp-dapr service to the nodeapp network namespace
+  
   queue:
     image: "rabbitmq:3.10.6-management-alpine"
     environment:
@@ -84,7 +85,6 @@ services:
       - queue
     networks:
       - dapr-network
-
   consumer-dapr:
     image: "daprio/daprd:edge"
     command: [
@@ -110,7 +110,6 @@ services:
       - "8001:80" # Dapr instances communicate over gRPC so we need to expose the gRPC port
     networks:
       - dapr-network
-
   search-dapr:
     image: "daprio/daprd:edge"
     command: [
@@ -135,7 +134,6 @@ services:
       - "9001:80" # Dapr instances communicate over gRPC so we need to expose the gRPC port
     networks:
       - dapr-network
-
   book-dapr:
     image: "daprio/daprd:edge"
     command: [
