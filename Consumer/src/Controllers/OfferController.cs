@@ -15,7 +15,7 @@ public class OfferController : ControllerBase
         _offerStorageSender = offerStorageSender;
     }
 
-    [Topic("derbyzone", "offer")]
+    [Topic("offer", "derbyzone")]
     [HttpPost("/subscribe")]
     public async Task<IActionResult> SuscribeOfferAsync([FromBody] Offer offer)
     {
