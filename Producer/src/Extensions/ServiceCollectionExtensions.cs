@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddDaprClientService(this IServiceCollection services)
     {
         services.AddDaprClient(builder => builder
-            .UseHttpEndpoint($"http://producer:60001")
+            .UseHttpEndpoint("http://producer:60001")
             .UseGrpcEndpoint("http://producer:60000"));
 
         return services;
